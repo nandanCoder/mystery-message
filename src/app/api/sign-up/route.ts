@@ -7,7 +7,6 @@ import { generateOTP } from "@/helpers/generateOTP";
 
 export async function POST(request: NextRequest) {
   await dbConnect();
-
   try {
     const { username, email, password } = await request.json();
 
@@ -96,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     return Response.json(
       {
-        success: false,
+        success: true,
         message: "Sign up successful. Please verify your email.",
       },
       {
