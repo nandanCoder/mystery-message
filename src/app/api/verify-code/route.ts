@@ -2,12 +2,11 @@ import { z } from "zod";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
 import { NextRequest } from "next/server";
-import { verifySchema } from "@/validation/verifySchema";
 import { usernameValidation } from "@/validation/signUpSchema";
 
 const verifyQuerySchema = z.object({
   username: usernameValidation,
-  code: verifySchema,
+  code: z.string().length(6, "Verification code must be 6 characters long"),
 });
 
 export async function POST(request: NextRequest) {
@@ -15,6 +14,18 @@ export async function POST(request: NextRequest) {
 
   try {
     const { userName, verifyCode } = await request.json();
+    if (!userName || !verifyCode) {
+      return Response.json(
+        {
+          success: false,
+          messae: "All fields are required",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+    console.log("requast dATA", userName, verifyCode);
     // decodeURIComponent  for url %20 for spec
     const decodedUsername = decodeURIComponent(userName);
     //console.log(userName, verifyCode);
@@ -24,7 +35,7 @@ export async function POST(request: NextRequest) {
       code: verifyCode,
     });
 
-    console.log("Result username ", result);
+    //console.log("Result username ", result);
     if (!result.success) {
       // extrect error
       const usernameErroes = result.error.format().username?._errors || [];
@@ -46,6 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { username, code } = result.data;
+    console.log(result.data);
     const user = await UserModel.findOne({
       username: username,
     });
@@ -58,6 +70,15 @@ export async function POST(request: NextRequest) {
         {
           status: 500,
         }
+      );
+    }
+    if (user.isVerified) {
+      return Response.json(
+        {
+          success: false,
+          message: "Account already verified",
+        },
+        { status: 400 }
       );
     }
     const isCodeValid = (user.varifyCode = code);

@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
       username,
       isVerified: true,
     });
+    // console.log("data::", userAlreadyExistsWithThisUssername);
 
     if (userAlreadyExistsWithThisUssername) {
       return Response.json(
@@ -45,10 +46,13 @@ export async function POST(request: NextRequest) {
     if (userAlreadyExistsByEmail) {
       //
       if (userAlreadyExistsByEmail.isVerified) {
-        return Response.json({
-          success: false,
-          message: "User already exists in this email address. Please login.",
-        });
+        return Response.json(
+          {
+            success: false,
+            message: "User already exists in this email address. Please login.",
+          },
+          { status: 400 }
+        );
       } else {
         const hashedPassword = await bcrypt.hash(password, 10);
         userAlreadyExistsByEmail.password = hashedPassword;

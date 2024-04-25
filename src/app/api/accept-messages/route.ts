@@ -1,5 +1,3 @@
-import { acceptMessagesSchema } from "./../../../validation/acceptMessageSchema";
-import { Message } from "./../../../model/user.model";
 import UserModel from "@/model/user.model";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]/options";
@@ -89,11 +87,10 @@ export async function GET(request: Request) {
       );
     }
   } catch (error) {
-    console.log("faild to get user data");
     return Response.json(
       {
         success: false,
-        message: "faild to get user data",
+        message: "Error in fetching user data massage accptance status",
       },
       { status: 401 }
     );
