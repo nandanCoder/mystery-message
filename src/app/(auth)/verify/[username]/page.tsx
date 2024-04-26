@@ -20,6 +20,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { verifySchema } from "@/validation/verifySchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,8 +37,8 @@ function verifyAccount() {
   });
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     setIsSubmitting(true);
-    console.log("from data", data);
-    console.log("from param", param);
+    // console.log("from data", data);
+    // console.log("from param", param);
     try {
       const responce = await axios.post<ApiResponse>("/api/verify-code", {
         userName: param.username,
@@ -73,7 +74,9 @@ function verifyAccount() {
           </p>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 w-full">
             <FormField
               control={form.control}
               name="verifyCode"
@@ -105,8 +108,15 @@ function verifyAccount() {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
-              Submit
+            <Button disabled={isSubmitting} className="w-full" type="submit">
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Verifying..
+                </>
+              ) : (
+                "Submit"
+              )}
             </Button>
           </form>
         </Form>
