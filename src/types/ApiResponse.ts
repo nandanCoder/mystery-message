@@ -3,7 +3,7 @@ export interface ApiResponse {
   success: boolean;
   message: string;
   isAcceptingMessage?: boolean;
-  Messages?: Message[];
+  messages?: Message[];
   data?: any;
   error?: any;
 }

@@ -33,10 +33,12 @@ function page() {
   });
 
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
+    setIsSubmitting(true);
     const result = await signIn("credentials", {
       redirect: false,
       ...data,
     });
+    console.log(result);
     if (result?.error) {
       if (result.error == "CredentialsSignin") {
         toast({
@@ -44,15 +46,18 @@ function page() {
           description: "Incorrect username or password",
           variant: "destructive",
         });
+        setIsSubmitting(false);
       } else {
         toast({
           title: "Error",
           description: result.error,
           variant: "destructive",
         });
+        setIsSubmitting(false);
       }
     }
     if (result?.url) {
+      console.log("all good");
       router.replace("/dashboard");
     }
   };

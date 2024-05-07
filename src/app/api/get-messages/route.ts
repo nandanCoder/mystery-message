@@ -6,42 +6,48 @@ import dbConnect from "@/lib/dbConnect";
 import mongoose from "mongoose";
 
 export async function GET(request: Request) {
+  //console.log(request);
   await dbConnect();
-
+  //console.log("i am hare");
   const session = await getServerSession(authOptions);
   const user = session?.user as User;
-  if (!session || !user) {
+  if (!session || !session.user) {
     return Response.json(
       { success: false, message: "Unauthorized" },
       { status: 401 }
     );
   }
   const userId = new mongoose.Types.ObjectId(user._id);
+  // console.log(userId);
   try {
     const user = await UserModel.aggregate([
       // pipline agrigation
       {
-        $match: { id: userId },
+        $match: { _id: userId },
       },
       {
         $unwind: "$messages",
       },
       {
-        $sort: { "$messages.createdAt": -1 },
+        $sort: { "messages.createdAt": -1 },
       },
       {
         $group: { _id: "$_id", messages: { $push: "$messages" } },
       },
-    ]);
+    ]).exec();
+    console.log("this is user::", !user.length);
     if (!user || user.length === 0) {
       return Response.json(
         {
-          success: false,
-          message: "User not Found",
+          succes: false,
+          message: "Messages not found",
         },
-        { status: 400 }
+        {
+          status: 400,
+        }
       );
     }
+    //console.log("thisuser", user);
     return Response.json(
       {
         success: false,
@@ -50,10 +56,11 @@ export async function GET(request: Request) {
       { status: 201 }
     );
   } catch (error) {
+    //console.log(error);
     return Response.json(
       {
         success: false,
-        message: "An error adding message error occured: ",
+        message: "Failed to fetch messages from server",
       },
       { status: 401 }
     );

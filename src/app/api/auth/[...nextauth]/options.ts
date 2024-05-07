@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/user.model";
+import { use } from "react";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -18,10 +19,12 @@ export const authOptions: NextAuthOptions = {
         try {
           const user = await UserModel.findOne({
             $or: [
-              { email: credentials.identifier },
-              { username: credentials.identifier },
+              { email: credentials.indentifire },
+              { username: credentials.indentifire },
             ],
           });
+          console.log("user", user);
+          console.log("identifier", credentials);
           if (!user) {
             throw new Error("No user found with this email");
           }
