@@ -67,18 +67,19 @@ function SendMessage() {
     }
   };
 
-  const suggestion = async () => {
-    try {
-      const response = await axios.post<ApiResponse>(
-        "/api/suggest-messages",
-        {}
-      );
-      console.log("response data ai ", response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  suggestion();
+  // ai api key not abalabel
+  // const suggestion = async () => {
+  //   try {
+  //     const response = await axios.post<ApiResponse>(
+  //       "/api/suggest-messages",
+  //       {}
+  //     );
+  //     console.log("response data ai ", response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // suggestion();
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
