@@ -35,7 +35,7 @@ export async function GET(request: Request) {
         $group: { _id: "$_id", messages: { $push: "$messages" } },
       },
     ]).exec();
-    console.log("this is user::", !user.length);
+    //console.log("this is user::", !user.length);
     if (!user || user.length === 0) {
       return Response.json(
         {

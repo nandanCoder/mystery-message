@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
       return Response.json(
         {
           success: false,
-          message: sendEmail.Messages,
+          message: sendEmail.messages,
         },
         {
           status: 500,

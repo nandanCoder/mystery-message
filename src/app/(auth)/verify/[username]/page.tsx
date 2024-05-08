@@ -26,7 +26,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-function verifyAccount() {
+function VerifyAccount() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const router = useRouter();
@@ -125,4 +125,4 @@ function verifyAccount() {
   );
 }
 
-export default verifyAccount;
+export default VerifyAccount;

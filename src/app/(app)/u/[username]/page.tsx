@@ -19,8 +19,9 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useCompletion } from "ai/react";
 
-function page() {
+function SendMessage() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isError, setIsError] = useState<string>("");
   const { toast } = useToast();
@@ -65,6 +66,19 @@ function page() {
       setIsSubmitting(false);
     }
   };
+
+  const suggestion = async () => {
+    try {
+      const response = await axios.post<ApiResponse>(
+        "/api/suggest-messages",
+        {}
+      );
+      console.log("response data ai ", response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  suggestion();
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -111,4 +125,4 @@ function page() {
   );
 }
 
-export default page;
+export default SendMessage;
