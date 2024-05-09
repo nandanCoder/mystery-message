@@ -117,7 +117,7 @@ function SignInForm() {
           </form>
         </Form>
         <div className="mt-4 text-center ">
-          I don't have an account{" "}
+          Not a member yet?{" "}
           <Link href={"/sign-up"} className="text-blue-600 hover:text-blue-800">
             Sign up
           </Link>

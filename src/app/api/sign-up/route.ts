@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
       username,
       verifyCode: otp,
     });
+    console.log("send email", sendEmail);
     if (!sendEmail.success) {
       return Response.json(
         {
