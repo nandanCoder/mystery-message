@@ -20,7 +20,7 @@ export default function VerificationEmail({
   return (
     <Html lang="en" dir="ltr">
       <Head>
-        <title>Verification Code</title>
+        <title>Your Verification Code for Mystey message</title>
         <Font
           fontFamily="Roboto"
           fallbackFontFamily="Verdana"
@@ -39,8 +39,9 @@ export default function VerificationEmail({
         </Row>
         <Row>
           <Text>
-            Thank you for registering. Please use the following verification
-            code to complete your registration:
+            This link and code will only be valid for the next 10 minutes. If
+            the link does not work, you can use the login verification code
+            directly
           </Text>
         </Row>
         <Row>

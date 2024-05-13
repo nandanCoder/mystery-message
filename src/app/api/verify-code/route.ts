@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-    const isCodeValid = (user.varifyCode = code);
+    const isCodeValid = user.varifyCode === code;
     const isCodeNotExpired = new Date(user.varifyCodeExpiry) > new Date();
     if (isCodeValid || isCodeNotExpired) {
       user.isVerified = true;
